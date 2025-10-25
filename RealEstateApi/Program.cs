@@ -7,11 +7,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// Add Controllers
+builder.Services.AddControllers();
+
 // Configure MongoDB
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 
 builder.Services.AddSingleton<MongoDbContext>();
+
+// Register Repositories (Infrastructure Layer)
+builder.Services.AddScoped<RealEstateApi.Domain.Interfaces.IPropertyRepository, 
+    RealEstateApi.Infraestructure.Repositories.PropertyRepository>();
+
+// Register Services (Application Layer)
+builder.Services.AddScoped<RealEstateApi.Application.Interfaces.IPropertyService, 
+    RealEstateApi.Application.Services.PropertyService>();
 
 var app = builder.Build();
 
@@ -23,12 +34,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-
+// Map Controllers
+app.MapControllers();
 
 app.Run();
 
