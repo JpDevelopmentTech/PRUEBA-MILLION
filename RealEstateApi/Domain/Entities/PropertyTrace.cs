@@ -9,7 +9,7 @@ public class PropertyTrace
     [BsonRepresentation(BsonType.ObjectId)]
     public string IdPropertyTrace { get; set; } = string.Empty;
 
-    [BsonElement("dateSale")]
+    [BsonElement("datesale")]
     public DateTime DateSale { get; set; }
 
     [BsonElement("name")]

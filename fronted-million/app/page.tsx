@@ -1,16 +1,30 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, MapPin, DollarSign, Home, Filter, Sparkles, TrendingUp, Bed, Bath, Maximize, Plus } from "lucide-react";
+import {
+  Search,
+  MapPin,
+  DollarSign,
+  Home,
+  Filter,
+  Sparkles,
+  TrendingUp,
+  Bed,
+  Bath,
+  Maximize,
+  Plus,
+} from "lucide-react";
 import useProperties from "./hooks/useProperties";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function HomePage() {
-  const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(1000000);
   const { properties } = useProperties(name, address, priceMin, priceMax);
-
+  const router = useRouter();
   return (
     <div className="min-h-screen w-full relative overflow-hidden">
       {/* Animated Background */}
@@ -25,7 +39,7 @@ export default function HomePage() {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
         <motion.div
@@ -37,7 +51,7 @@ export default function HomePage() {
           transition={{
             duration: 15,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
         <motion.div
@@ -49,7 +63,7 @@ export default function HomePage() {
           transition={{
             duration: 18,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
         />
       </div>
@@ -57,14 +71,14 @@ export default function HomePage() {
       {/* Main Content */}
       <div className="relative z-10 flex h-screen">
         {/* Sidebar with Filters */}
-        <motion.div 
+        <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="w-96 p-6 backdrop-blur-2xl bg-white/10 border-r border-white/20 shadow-2xl"
         >
           {/* Header */}
-          <motion.div 
+          <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -77,18 +91,16 @@ export default function HomePage() {
               <h2 className="text-2xl font-bold text-white">Filtros</h2>
               <Sparkles className="w-5 h-5 text-gray-300 animate-pulse" />
             </div>
-            <p className="text-white/60 text-sm">Encuentra tu propiedad ideal</p>
+            <p className="text-white/60 text-sm">
+              Encuentra tu propiedad ideal
+            </p>
           </motion.div>
 
-          <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="flex mb-4 items-center justify-center gap-2 w-full py-3 rounded-xl bg-gradient-to-r from-gray-600 to-slate-600 text-white font-semibold hover:shadow-lg hover:shadow-gray-500/50 transition-all duration-300">
-            <Plus className="w-4 h-4" />
-            Nueva propiedad
-          </motion.button>
 
           {/* Filters */}
           <div className="flex flex-col gap-6">
             {/* Name Filter */}
-            <motion.div 
+            <motion.div
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -100,10 +112,10 @@ export default function HomePage() {
               </label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/40" />
-                <input 
-                  value={name} 
-                  onChange={(e) => setName(e.target.value)} 
-                  type="text" 
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
                   placeholder="Buscar por nombre..."
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 backdrop-blur-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-all duration-300 hover:bg-white/15"
                 />
@@ -111,7 +123,7 @@ export default function HomePage() {
             </motion.div>
 
             {/* Address Filter */}
-            <motion.div 
+            <motion.div
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -123,10 +135,10 @@ export default function HomePage() {
               </label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/40" />
-                <input 
-                  value={address} 
-                  onChange={(e) => setAddress(e.target.value)} 
-                  type="text" 
+                <input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  type="text"
                   placeholder="Buscar por ubicación..."
                   className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 backdrop-blur-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-all duration-300 hover:bg-white/15"
                 />
@@ -134,7 +146,7 @@ export default function HomePage() {
             </motion.div>
 
             {/* Price Range */}
-            <motion.div 
+            <motion.div
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -144,18 +156,20 @@ export default function HomePage() {
                 <DollarSign className="w-4 h-4" />
                 Rango de Precio
               </label>
-              
+
               {/* Min Price */}
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white/60 text-xs">Precio Mínimo</span>
-                  <span className="text-white font-semibold text-sm">${priceMin.toLocaleString()}</span>
+                  <span className="text-white font-semibold text-sm">
+                    ${priceMin.toLocaleString()}
+                  </span>
                 </div>
-                <input 
-                  value={priceMin} 
-                  onChange={(e) => setPriceMin(Number(e.target.value))} 
-                  type="range" 
-                  min={0} 
+                <input
+                  value={priceMin}
+                  onChange={(e) => setPriceMin(Number(e.target.value))}
+                  type="range"
+                  min={0}
                   max={1000000}
                   step={10000}
                   className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer slider-thumb"
@@ -166,13 +180,15 @@ export default function HomePage() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-white/60 text-xs">Precio Máximo</span>
-                  <span className="text-white font-semibold text-sm">${priceMax.toLocaleString()}</span>
+                  <span className="text-white font-semibold text-sm">
+                    ${priceMax.toLocaleString()}
+                  </span>
                 </div>
-                <input 
-                  value={priceMax} 
-                  onChange={(e) => setPriceMax(Number(e.target.value))} 
-                  type="range" 
-                  min={0} 
+                <input
+                  value={priceMax}
+                  onChange={(e) => setPriceMax(Number(e.target.value))}
+                  type="range"
+                  min={0}
                   max={1000000}
                   step={10000}
                   className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer slider-thumb"
@@ -181,7 +197,7 @@ export default function HomePage() {
             </motion.div>
 
             {/* Stats */}
-            <motion.div 
+            <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6 }}
@@ -204,8 +220,12 @@ export default function HomePage() {
             transition={{ delay: 0.3 }}
             className="mb-8"
           >
-            <h1 className="text-4xl font-bold text-white mb-2">Propiedades Destacadas</h1>
-            <p className="text-white/60">Descubre las mejores opciones para ti</p>
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Propiedades Destacadas
+            </h1>
+            <p className="text-white/60">
+              Descubre las mejores opciones para ti
+            </p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pb-8">
@@ -224,46 +244,32 @@ export default function HomePage() {
                   <div className="relative h-48 bg-gradient-to-br from-gray-700/30 to-slate-700/30 overflow-hidden">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Home className="w-16 h-16 text-white/40 group-hover:scale-110 transition-transform duration-500" />
-          </div>
+                      <Image className="object-cover w-full h-full"  src={property.images[0]} alt={property.name} width={1920} height={1080} />
+                    </div>
                     {/* Price Badge */}
                     <div className="absolute top-4 right-4 px-4 py-2 rounded-full backdrop-blur-xl bg-white/20 border border-white/30">
                       <div className="flex items-center gap-1 text-white font-bold">
                         <DollarSign className="w-4 h-4" />
-                        <span>{property.price?.toLocaleString() || 'N/A'}</span>
-          </div>
-        </div>
-      </div>
+                        <span>{property.price?.toLocaleString() || "N/A"}</span>
+                      </div>
+                    </div>
+                  </div>
 
                   {/* Content */}
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-white mb-2 group-hover:text-gray-300 transition-colors duration-300">
                       {property.name}
                     </h3>
-                    
+
                     <div className="flex items-start gap-2 text-white/70 mb-4">
                       <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
                       <p className="text-sm">{property.address}</p>
                     </div>
 
-                    {/* Features */}
-                    <div className="flex items-center gap-4 pt-4 border-t border-white/10">
-                      <div className="flex items-center gap-1 text-white/60 text-sm">
-                        <Bed className="w-4 h-4" />
-                        <span>3</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-white/60 text-sm">
-                        <Bath className="w-4 h-4" />
-                        <span>2</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-white/60 text-sm">
-                        <Maximize className="w-4 h-4" />
-                        <span>120m²</span>
-                      </div>
-                    </div>
 
                     {/* Action Button */}
                     <motion.button
+                      onClick={() => router.push(`/property/${property.id}`)}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-gray-600 to-slate-600 text-white font-semibold hover:shadow-lg hover:shadow-gray-500/50 transition-all duration-300"
@@ -276,11 +282,12 @@ export default function HomePage() {
                   <motion.div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                     style={{
-                      background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)',
-                      backgroundSize: '200% 200%',
+                      background:
+                        "linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%)",
+                      backgroundSize: "200% 200%",
                     }}
                     animate={{
-                      backgroundPosition: ['200% 0%', '-200% 0%'],
+                      backgroundPosition: ["200% 0%", "-200% 0%"],
                     }}
                     transition={{
                       duration: 1.5,
@@ -288,7 +295,7 @@ export default function HomePage() {
                       repeatDelay: 1,
                     }}
                   />
-            </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -302,8 +309,12 @@ export default function HomePage() {
             >
               <div className="p-8 rounded-3xl backdrop-blur-2xl bg-white/10 border border-white/20">
                 <Home className="w-16 h-16 text-white/40 mx-auto mb-4" />
-                <p className="text-white/60 text-center">No se encontraron propiedades</p>
-                <p className="text-white/40 text-sm text-center mt-2">Intenta ajustar los filtros</p>
+                <p className="text-white/60 text-center">
+                  No se encontraron propiedades
+                </p>
+                <p className="text-white/40 text-sm text-center mt-2">
+                  Intenta ajustar los filtros
+                </p>
               </div>
             </motion.div>
           )}

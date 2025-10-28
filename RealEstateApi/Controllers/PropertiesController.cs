@@ -15,19 +15,26 @@ public class PropertiesController : ControllerBase
         _propertyService = propertyService;
     }
 
-    // GET: /api/properties
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var properties = await _propertyService.GetAllAsync();
-        return Ok(properties);
-    }
+ 
 
     // GET: /api/properties/{id}
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
         var property = await _propertyService.GetByIdAsync(id);
+        
+        if (property == null)
+            return NotFound(new { message = $"Property with id {id} not found" });
+        
+        return Ok(property);
+    }
+
+    // GET: /api/properties/{id}/details
+    // Endpoint con populate (trae datos relacionados: owner, images, traces)
+    [HttpGet("{id}/details")]
+    public async Task<IActionResult> GetByIdWithDetails(string id)
+    {
+        var property = await _propertyService.GetByIdWithDetailsAsync(id);
         
         if (property == null)
             return NotFound(new { message = $"Property with id {id} not found" });
@@ -54,7 +61,7 @@ public class PropertiesController : ControllerBase
         try
         {
             var property = await _propertyService.CreateAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = property.IdProperty }, property);
+            return CreatedAtAction(nameof(GetById), new { id = property.id }, property);
         }
         catch (Exception ex)
         {
@@ -62,27 +69,4 @@ public class PropertiesController : ControllerBase
         }
     }
 
-    // PUT: /api/properties/{id}
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, [FromBody] CreatePropertyRequest request)
-    {
-        var updated = await _propertyService.UpdateAsync(id, request);
-        
-        if (!updated)
-            return NotFound(new { message = $"Property with id {id} not found" });
-        
-        return NoContent();
-    }
-
-    // DELETE: /api/properties/{id}
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id)
-    {
-        var deleted = await _propertyService.DeleteAsync(id);
-        
-        if (!deleted)
-            return NotFound(new { message = $"Property with id {id} not found" });
-        
-        return NoContent();
-    }
 }

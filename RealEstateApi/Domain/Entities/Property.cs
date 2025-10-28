@@ -7,7 +7,7 @@ public class Property
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string IdProperty { get; set; } = string.Empty;
+    public string id { get; set; } = string.Empty;
 
     [BsonElement("name")]
     public string Name { get; set; } = string.Empty;
@@ -25,6 +25,10 @@ public class Property
     public int Year { get; set; }
 
     [BsonElement("idOwner")]
+    [BsonRepresentation(BsonType.ObjectId)]
     public string IdOwner { get; set; } = string.Empty;
+
+    [BsonElement("idImage")]
+    public string idImage { get; set; } = string.Empty;
 }
 
