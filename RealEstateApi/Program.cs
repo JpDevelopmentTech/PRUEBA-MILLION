@@ -23,6 +23,8 @@ builder.Services.AddCors(options =>
 });
 
 // Configure MongoDB
+// Las variables de entorno pueden sobrescribir la configuración de appsettings.json
+// Ejemplo: MongoDbSettings__ConnectionString, MongoDbSettings__DatabaseName
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 

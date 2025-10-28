@@ -1,0 +1,15 @@
+[{
+  "_id": {
+    "$oid": "68fc8efbc61603a4e54f31f0"
+  },
+  "name": "Propiedad en venta de alquiler",
+  "address": "Miami",
+  "price": {
+    "$numberDecimal": "1000000"
+  },
+  "codeInternal": "miami-01",
+  "year": 2025,
+  "idOwner": {
+    "$oid": "69006b46334de30294d8b1c4"
+  }
+}]

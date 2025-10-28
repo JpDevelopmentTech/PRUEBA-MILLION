@@ -1,0 +1,10 @@
+[{
+  "_id": {
+    "$oid": "69006af7334de30294d8b1c2"
+  },
+  "idProperty": {
+    "$oid": "68fc8efbc61603a4e54f31f0"
+  },
+  "file": "https://px-web-images4.pixpa.com/0OCtTHhJVQLIFnX91sBSYJcJpnHTtdHL2Ioh1V2nKD0/rs:fit:1200:0/q:80/aHR0cHM6Ly9waXhwYWNvbS1pbWcucGl4cGEuY29tL2NvbS9hcnRpY2xlcy8xNTIzOTY0NzQ4LTcwMzk5LXNodXR0ZXJzdG9jay01NTUzMjUzODFqcGcuanBn",
+  "enabled": true
+}]

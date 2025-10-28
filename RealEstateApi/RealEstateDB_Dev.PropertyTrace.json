@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "69006bc2334de30294d8b1c8"
+  },
+  "datesale": "18/10/2025",
+  "name": "Prueba de propiedad",
+  "value": 1000000,
+  "tax": 20,
+  "idProperty": {
+    "$oid": "68fc8efbc61603a4e54f31f0"
+  }
+}]
