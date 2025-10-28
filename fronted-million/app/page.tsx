@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   MapPin,
@@ -9,10 +9,8 @@ import {
   Filter,
   Sparkles,
   TrendingUp,
-  Bed,
-  Bath,
-  Maximize,
-  Plus,
+  X,
+  Menu,
 } from "lucide-react";
 import useProperties from "./hooks/useProperties";
 import { useRouter } from "next/navigation";
@@ -23,6 +21,7 @@ export default function HomePage() {
   const [address, setAddress] = useState("");
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(1000000);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { properties } = useProperties(name, address, priceMin, priceMax);
   const router = useRouter();
   return (
@@ -68,14 +67,29 @@ export default function HomePage() {
         />
       </div>
 
+      {/* Mobile Menu Button */}
+      <div className="lg:hidden fixed top-4 left-4 z-50">
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="p-3 rounded-xl backdrop-blur-2xl bg-white/10 border border-white/20 shadow-lg"
+        >
+          {sidebarOpen ? (
+            <X className="w-6 h-6 text-white" />
+          ) : (
+            <Menu className="w-6 h-6 text-white" />
+          )}
+        </button>
+      </div>
+
       {/* Main Content */}
-      <div className="relative z-10 flex h-screen">
+      <div className="relative z-10 flex flex-col lg:flex-row h-screen">
         {/* Sidebar with Filters */}
+        {/* Desktop Sidebar - Always visible on lg+ */}
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
-          className="w-96 p-6 backdrop-blur-2xl bg-white/10 border-r border-white/20 shadow-2xl"
+          className="hidden lg:block w-96 p-6 backdrop-blur-2xl bg-white/10 border-r border-white/20 shadow-2xl overflow-y-auto"
         >
           {/* Header */}
           <motion.div
@@ -212,23 +226,186 @@ export default function HomePage() {
           </div>
         </motion.div>
 
+        {/* Mobile Sidebar with Overlay */}
+        <AnimatePresence>
+          {sidebarOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setSidebarOpen(false)}
+                className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+              />
+              <motion.div
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -100, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-y-0 left-0 w-80 max-w-[85vw] p-6 backdrop-blur-2xl bg-white/10 border-r border-white/20 shadow-2xl overflow-y-auto z-40"
+              >
+                {/* Header */}
+                <motion.div
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="mb-8"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 rounded-xl bg-gradient-to-br from-gray-600 to-slate-600">
+                      <Filter className="w-6 h-6 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-white">Filtros</h2>
+                    <Sparkles className="w-5 h-5 text-gray-300 animate-pulse" />
+                  </div>
+                  <p className="text-white/60 text-sm">
+                    Encuentra tu propiedad ideal
+                  </p>
+                </motion.div>
+
+                {/* Filters */}
+                <div className="flex flex-col gap-6">
+                  {/* Name Filter */}
+                  <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="group"
+                  >
+                    <label className="flex items-center gap-2 text-white/80 text-sm font-medium mb-2">
+                      <Home className="w-4 h-4" />
+                      Nombre de la Propiedad
+                    </label>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/40" />
+                      <input
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        type="text"
+                        placeholder="Buscar por nombre..."
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 backdrop-blur-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-all duration-300 hover:bg-white/15"
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* Address Filter */}
+                  <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className="group"
+                  >
+                    <label className="flex items-center gap-2 text-white/80 text-sm font-medium mb-2">
+                      <MapPin className="w-4 h-4" />
+                      Dirección
+                    </label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-white/40" />
+                      <input
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        type="text"
+                        placeholder="Buscar por ubicación..."
+                        className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 backdrop-blur-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent transition-all duration-300 hover:bg-white/15"
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* Price Range */}
+                  <motion.div
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="group"
+                  >
+                    <label className="flex items-center gap-2 text-white/80 text-sm font-medium mb-3">
+                      <DollarSign className="w-4 h-4" />
+                      Rango de Precio
+                    </label>
+
+                    {/* Min Price */}
+                    <div className="mb-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white/60 text-xs">Precio Mínimo</span>
+                        <span className="text-white font-semibold text-sm">
+                          ${priceMin.toLocaleString()}
+                        </span>
+                      </div>
+                      <input
+                        value={priceMin}
+                        onChange={(e) => setPriceMin(Number(e.target.value))}
+                        type="range"
+                        min={0}
+                        max={1000000}
+                        step={10000}
+                        className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer slider-thumb"
+                      />
+                    </div>
+
+                    {/* Max Price */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white/60 text-xs">Precio Máximo</span>
+                        <span className="text-white font-semibold text-sm">
+                          ${priceMax.toLocaleString()}
+                        </span>
+                      </div>
+                      <input
+                        value={priceMax}
+                        onChange={(e) => setPriceMax(Number(e.target.value))}
+                        type="range"
+                        min={0}
+                        max={1000000}
+                        step={10000}
+                        className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer slider-thumb"
+                      />
+                    </div>
+                  </motion.div>
+
+                  {/* Stats */}
+                  <motion.div
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="mt-4 p-4 rounded-xl bg-gradient-to-r from-gray-600/20 to-slate-600/20 border border-white/20 backdrop-blur-xl"
+                  >
+                    <div className="flex items-center gap-2 text-white/80 text-sm">
+                      <TrendingUp className="w-4 h-4" />
+                      <span className="font-semibold">{properties.length}</span>
+                      <span className="text-white/60">propiedades encontradas</span>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Close Button */}
+                <button
+                  onClick={() => setSidebarOpen(false)}
+                  className="mt-6 w-full py-2 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-white text-sm font-medium"
+                >
+                  Cerrar
+                </button>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+
         {/* Properties Grid */}
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
             className="mb-8"
           >
-            <h1 className="text-4xl font-bold text-white mb-2">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
               Propiedades Destacadas
             </h1>
-            <p className="text-white/60">
+            <p className="text-white/60 text-sm md:text-base">
               Descubre las mejores opciones para ti
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 pb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 pb-8">
             {properties.map((property, index) => (
               <motion.div
                 key={property.id}
@@ -239,25 +416,25 @@ export default function HomePage() {
                 className="group relative"
               >
                 {/* Card */}
-                <div className="relative overflow-hidden rounded-2xl backdrop-blur-2xl bg-white/10 border border-white/20 shadow-2xl hover:shadow-gray-500/50 transition-all duration-500">
+                <div className="relative overflow-hidden rounded-xl md:rounded-2xl backdrop-blur-2xl bg-white/10 border border-white/20 shadow-2xl hover:shadow-gray-500/50 transition-all duration-500">
                   {/* Image Placeholder */}
-                  <div className="relative h-48 bg-gradient-to-br from-gray-700/30 to-slate-700/30 overflow-hidden">
+                  <div className="relative h-40 md:h-48 bg-gradient-to-br from-gray-700/30 to-slate-700/30 overflow-hidden">
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-500"></div>
                     <div className="absolute inset-0 flex items-center justify-center">
                       <Image className="object-cover w-full h-full"  src={property.images[0]} alt={property.name} width={1920} height={1080} />
                     </div>
                     {/* Price Badge */}
-                    <div className="absolute top-4 right-4 px-4 py-2 rounded-full backdrop-blur-xl bg-white/20 border border-white/30">
-                      <div className="flex items-center gap-1 text-white font-bold">
-                        <DollarSign className="w-4 h-4" />
+                    <div className="absolute top-3 right-3 md:top-4 md:right-4 px-3 py-1.5 md:px-4 md:py-2 rounded-full backdrop-blur-xl bg-white/20 border border-white/30">
+                      <div className="flex items-center gap-1 text-white font-bold text-sm md:text-base">
+                        <DollarSign className="w-3 h-3 md:w-4 md:h-4" />
                         <span>{property.price?.toLocaleString() || "N/A"}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-gray-300 transition-colors duration-300">
+                  <div className="p-4 md:p-6">
+                    <h3 className="text-lg md:text-xl font-bold text-white mb-2 group-hover:text-gray-300 transition-colors duration-300 line-clamp-2">
                       {property.name}
                     </h3>
 
@@ -272,7 +449,7 @@ export default function HomePage() {
                       onClick={() => router.push(`/property/${property.id}`)}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="mt-4 w-full py-3 rounded-xl bg-gradient-to-r from-gray-600 to-slate-600 text-white font-semibold hover:shadow-lg hover:shadow-gray-500/50 transition-all duration-300"
+                      className="mt-2 md:mt-4 w-full py-2.5 md:py-3 rounded-xl bg-gradient-to-r from-gray-600 to-slate-600 text-white font-semibold hover:shadow-lg hover:shadow-gray-500/50 transition-all duration-300 text-sm md:text-base"
                     >
                       Ver Detalles
                     </motion.button>
