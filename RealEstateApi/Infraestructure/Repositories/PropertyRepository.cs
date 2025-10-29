@@ -27,15 +27,14 @@ public class PropertyRepository : IPropertyRepository
         return await _properties.Find(p => p.id == id).FirstOrDefaultAsync();
     }
 
-    // Método para obtener propiedad con datos relacionados (populate)
     public async Task<BsonDocument?> GetByIdWithDetailsAsync(string id)
     {
         var pipeline = new BsonDocument[]
         {
-            // Stage 1: Match - Filtrar la propiedad por id
+       
             new BsonDocument("$match", new BsonDocument("_id", new ObjectId(id))),
             
-            // Stage 2: Lookup - Join con la colección de Owners
+   
             new BsonDocument("$lookup", new BsonDocument
             {
                 { "from", "Owner" },
@@ -44,14 +43,14 @@ public class PropertyRepository : IPropertyRepository
                 { "as", "owner" }
             }),
             
-            // Stage 3: Unwind - Convertir el array owner en un objeto
+
             new BsonDocument("$unwind", new BsonDocument
             {
                 { "path", "$owner" },
                 { "preserveNullAndEmptyArrays", true }
             }),
             
-            // Stage 4: Lookup - Join con PropertyImages
+
             new BsonDocument("$lookup", new BsonDocument
             {
                 { "from", "PropertyImage" },
@@ -60,7 +59,7 @@ public class PropertyRepository : IPropertyRepository
                 { "as", "images" }
             }),
             
-            // Stage 5: Lookup - Join con PropertyTraces
+
             new BsonDocument("$lookup", new BsonDocument
             {
                 { "from", "PropertyTrace" },
@@ -115,7 +114,6 @@ public class PropertyRepository : IPropertyRepository
         return property;
     }
 
-    // Método para obtener propiedades con imágenes usando populate
     public async Task<IEnumerable<BsonDocument>> GetPropertiesWithImagesAsync(
         string? name, 
         string? address, 
@@ -124,7 +122,6 @@ public class PropertyRepository : IPropertyRepository
     {
         var filters = new List<BsonDocument>();
 
-        // Agregar filtros
         if (!string.IsNullOrWhiteSpace(name))
         {
             filters.Add(new BsonDocument("name", new BsonRegularExpression(name, "i")));
@@ -153,7 +150,6 @@ public class PropertyRepository : IPropertyRepository
         {
             matchFilter,
             
-            // Lookup - Join con PropertyImages para traer las imágenes
             new BsonDocument("$lookup", new BsonDocument
             {
                 { "from", "PropertyImage" },
@@ -162,7 +158,6 @@ public class PropertyRepository : IPropertyRepository
                 { "as", "images" }
             }),
             
-            // Proyectar solo lo necesario
             new BsonDocument("$project", new BsonDocument
             {
                 { "_id", 1 },

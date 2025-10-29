@@ -15,9 +15,7 @@ public class PropertiesController : ControllerBase
         _propertyService = propertyService;
     }
 
- 
 
-    // GET: /api/properties/{id}
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
@@ -29,8 +27,7 @@ public class PropertiesController : ControllerBase
         return Ok(property);
     }
 
-    // GET: /api/properties/{id}/details
-    // Endpoint con populate (trae datos relacionados: owner, images, traces)
+
     [HttpGet("{id}/details")]
     public async Task<IActionResult> GetByIdWithDetails(string id)
     {
@@ -42,7 +39,6 @@ public class PropertiesController : ControllerBase
         return Ok(property);
     }
 
-    // GET: /api/properties/search?name=casa&address=bogota&priceMin=100000&priceMax=500000
     [HttpGet("search")]
     public async Task<IActionResult> Search(
         [FromQuery] string? name,
@@ -54,7 +50,7 @@ public class PropertiesController : ControllerBase
         return Ok(properties);
     }
 
-    // POST: /api/properties
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreatePropertyRequest request)
     {

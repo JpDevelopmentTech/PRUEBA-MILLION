@@ -24,7 +24,6 @@ public class PropertyService : IPropertyService
         return property != null ? MapToResponse(property) : null;
     }
 
-    // Método para obtener propiedad con datos relacionados (populate)
     public async Task<PropertyDetailResponse?> GetByIdWithDetailsAsync(string id)
     {
         var bsonDocument = await _propertyRepository.GetByIdWithDetailsAsync(id);
@@ -39,8 +38,7 @@ public class PropertyService : IPropertyService
             Price = bsonDocument.GetValue("price", 0).ToDecimal(),
             CodeInternal = bsonDocument.GetValue("codeInternal", "").AsString,
             Year = bsonDocument.GetValue("year", 0).AsInt32,
-            
-            // Mapear Owner
+
             Owner = bsonDocument.Contains("owner") && bsonDocument["owner"].IsBsonDocument
                 ? new OwnerResponse
                 {
@@ -52,7 +50,7 @@ public class PropertyService : IPropertyService
                 }
                 : null,
             
-            // Mapear Images
+
             Images = bsonDocument.Contains("images") && bsonDocument["images"].IsBsonArray
                 ? bsonDocument["images"].AsBsonArray
                     .Where(img => img.IsBsonDocument)
@@ -65,7 +63,7 @@ public class PropertyService : IPropertyService
                     }).ToList()
                 : new List<PropertyImageResponse>(),
             
-            // Mapear Traces
+
             Traces = bsonDocument.Contains("traces") && bsonDocument["traces"].IsBsonArray
                 ? bsonDocument["traces"].AsBsonArray
                     .Where(trace => trace.IsBsonDocument)
@@ -82,7 +80,6 @@ public class PropertyService : IPropertyService
         };
     }
 
-    // Helper method para convertir valores de fecha de manera segura
     private static DateTime GetDateTimeValue(BsonDocument document, string fieldName)
     {
         if (!document.Contains(fieldName))
@@ -90,11 +87,9 @@ public class PropertyService : IPropertyService
 
         var value = document[fieldName];
         
-        // Si es un BsonDateTime, convertir directamente
         if (value.IsBsonDateTime)
             return value.ToUniversalTime();
         
-        // Si es un string, intentar parsearlo
         if (value.IsString)
         {
             if (DateTime.TryParse(value.AsString, out var parsedDate))
@@ -145,7 +140,7 @@ public class PropertyService : IPropertyService
         var createdProperty = await _propertyRepository.CreateAsync(property);
         return MapToResponse(createdProperty);
     }
-    // Mapper: Entity -> Response DTO
+
     private static PropertyResponse MapToResponse(Property property)
     {
         return new PropertyResponse
