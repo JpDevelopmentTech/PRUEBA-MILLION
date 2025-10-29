@@ -22,15 +22,15 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden">
-      {/* Animated Background */}
+
       <AnimatedBackground />
 
-      {/* Mobile Menu Button */}
+
       <MobileMenuButton sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-      {/* Main Content */}
+
       <div className="relative z-10 flex flex-col lg:flex-row h-screen">
-        {/* Desktop Sidebar */}
+   
         <FilterSidebar
           name={name}
           setName={setName}
@@ -43,7 +43,6 @@ export default function HomePage() {
           propertiesCount={properties.length}
         />
 
-        {/* Mobile Sidebar */}
         <FilterSidebar
           isMobile
           isOpen={sidebarOpen}
@@ -59,7 +58,6 @@ export default function HomePage() {
           propertiesCount={properties.length}
         />
 
-        {/* Properties Grid */}
         <PropertyGrid properties={properties} onViewDetails={handleViewDetails} />
       </div>
     </div>

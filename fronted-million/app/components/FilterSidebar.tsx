@@ -33,7 +33,6 @@ export default function FilterSidebar({
 }: FilterSidebarProps) {
   const filtersContent = (
     <>
-      {/* Header */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -50,9 +49,7 @@ export default function FilterSidebar({
         <p className="text-white/60 text-sm">Encuentra tu propiedad ideal</p>
       </motion.div>
 
-      {/* Filters */}
       <div className="flex flex-col gap-6">
-        {/* Name Filter */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -75,7 +72,6 @@ export default function FilterSidebar({
           </div>
         </motion.div>
 
-        {/* Address Filter */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -98,7 +94,6 @@ export default function FilterSidebar({
           </div>
         </motion.div>
 
-        {/* Price Range */}
         <motion.div
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -110,7 +105,6 @@ export default function FilterSidebar({
             Rango de Precio
           </label>
 
-          {/* Min Price */}
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-white/60 text-xs">Precio Mínimo</span>
@@ -129,7 +123,6 @@ export default function FilterSidebar({
             />
           </div>
 
-          {/* Max Price */}
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-white/60 text-xs">Precio Máximo</span>

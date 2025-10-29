@@ -66,7 +66,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Owner Section */}
+
           {property.owner && (
             <div className="lg:col-span-1">
               <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -191,7 +191,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </div>
 
-        {/* Back Button */}
         <div className="mt-8 flex justify-center">
           <button
             onClick={() => window.history.back()}
