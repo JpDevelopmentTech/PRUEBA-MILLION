@@ -22,6 +22,25 @@ jest.mock('framer-motion', () => ({
       <button className={className} {...props}>{children}</button>
     ),
   },
+  AnimatePresence: ({ children }: any) => <>{children}</>,
+}));
+
+// Mock component modules
+jest.mock('../components/AnimatedBackground', () => ({
+  __esModule: true,
+  default: () => <div data-testid="animated-background" />,
+}));
+
+jest.mock('../components/MobileMenuButton', () => ({
+  __esModule: true,
+  default: ({ sidebarOpen, setSidebarOpen }: any) => (
+    <button
+      data-testid="mobile-menu-button"
+      onClick={() => setSidebarOpen(!sidebarOpen)}
+    >
+      {sidebarOpen ? 'Close' : 'Open'}
+    </button>
+  ),
 }));
 
 describe('HomePage', () => {
