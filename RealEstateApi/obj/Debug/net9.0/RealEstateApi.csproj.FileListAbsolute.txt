@@ -39,3 +39,8 @@ C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debu
 C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debug\net9.0\ZstdSharp.dll
+C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debug\net9.0\RealEstateDB_Dev.Owner.json
+C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debug\net9.0\RealEstateDB_Dev.Properties.json
+C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debug\net9.0\RealEstateDB_Dev.PropertyImage.json
+C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\bin\Debug\net9.0\RealEstateDB_Dev.PropertyTrace.json
+C:\Users\Lenovo LOQ\Documents\Repositorios\PRUEBA MILLION\RealEstateApi\obj\Debug\net9.0\RealEstateApi.sourcelink.json
